@@ -1,0 +1,12 @@
+const Diagnosisses = artifacts.require('./Diagnosisses.sol');
+const Insurances = artifacts.require('./Insurances.sol');
+const tokenInsurances = artifacts.require('./TokenInsurances.sol');
+
+module.exports = function(deployer) {   
+    deployer.deploy(Diagnosisses).then(function(){
+	deployer.deploy(tokenInsurances).then(function(){
+            return deployer.deploy(Insurances,Diagnosisses.address,tokenInsurances.address);
+    	}
+    });
+};
+
