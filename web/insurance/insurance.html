@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>保険管理サービス</title>
+    <style>
+      body {
+        background: #ffffff;
+        font-family: Meiryo;
+        text-align: center;
+      }
+    .square_btn{
+    display: inline-block;
+    padding: 0.7em 2em;
+    text-decoration: none;
+    margin: 20px;
+    background: #00ff00;/*ボタン色*/
+    color: #FFF;
+    border-bottom: solid 4px #627295;
+    border-radius: 3px;
+}
+.square_btn:active {/*ボタンを押したとき*/
+    -ms-transform: translateY(4px);
+    -webkit-transform: translateY(4px);
+    transform: translateY(4px);/*下に動く*/
+    border-bottom: none;/*線を消す*/
+}
+#popup {
+    display: none;  /* 初期表示は非表示 */
+    position: fixed; 
+    left: 50%;
+    top: 50%;
+    width: 300px;
+    height: 200px;
+    margin-left: -150px;
+    margin-top: -100px;
+    background-color: white;
+    border-radius: 5px;
+    text-align: center;
+}
+<div id="layer"></div>
+<!-- ポップアップ -->
+<div id="popup">
+    <div>popup</div>
+    <input type="button" id="close" value="close popup">
+</div>
+
+    </style>
+
+  </head>
+  <body>
+    <h1>保険手続き</h1>
+      <a href="./contract.html" class="square_btn">保険加入申請</a>
+      <a href="./pay.html" class="square_btn">保険料支払い</a>
+      <a href="./receive.html" class="square_btn">保険金受取</a>
+      <a href="./info.html" class="square_btn">加入状況照会</a>
+
+  <div class="back">
+  <input type="button" value="前のページへ戻る" onclick="history.back()">
+  <div>
+  </body>
+</html>

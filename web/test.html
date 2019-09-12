@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>保険管理サービス</title>
+    <title></title>
+    <script src="https://api.blockchain.z.com/static/client/lib/eth-client.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript">
+    const cnsAddress = '0xcc565e58ccbd369f814ba62429652662a71484a4';
+    const baseUrl = 'https://api.blockchain.z.com/';
+    const ABI = [{"constant": true,"inputs": [{"name": "_addr","type": "address"}],"name": "getValue","outputs": [{"name": "","type": "uint256"}],"payable": false,"stateMutability": "view","type": "function"},{"constant": false,"inputs": [{"name": "_sign","type": "bytes"},{"name": "_v","type": "uint256"}],"name": "setValue","outputs": [{"name": "","type": "uint256"}],"payable": false,"stateMutability": "nonpayable","type": "function"}];
+    //const ABI = [{"constant":false,"inputs":[{"name":"_sign","type":"bytes"},{"name":"_objectId","type":"bytes32"},{"name":"_deleter","type":"address"}],"name":"deleteDataObject","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"provider","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getValue","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"isVersionContract","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_sign","type":"bytes"},{"name":"_objectId","type":"bytes32"},{"name":"_fileHash","type":"bytes32"},{"name":"_writer","type":"address"}],"name":"updateFileObject","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"isVersionLogic","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"v","type":"uint256"}],"name":"setValue","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_sign","type":"bytes"},{"name":"_objectId","type":"bytes32"},{"name":"_dataHash","type":"bytes32"},{"name":"_fileHash","type":"bytes32"},{"name":"_owner","type":"address"}],"name":"dummyCreateFileObject","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"contractName","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_sign","type":"bytes"},{"name":"_objectId","type":"bytes32"},{"name":"_dataHash","type":"bytes32"},{"name":"_owner","type":"address"}],"name":"dummyCreateDataObject","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_data","type":"bytes32[]"}],"name":"echoZero","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_sign","type":"bytes"},{"name":"_objectId","type":"bytes32"},{"name":"_deleter","type":"address"}],"name":"deleteFileObject","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"loop","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_sign","type":"bytes"},{"name":"_objectId","type":"bytes32"},{"name":"_dataHash","type":"bytes32"},{"name":"_owner","type":"address"}],"name":"createDataObject","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_id","type":"bytes32"}],"name":"echo","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"isVersionContractOrLogic","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"c","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_sign","type":"bytes"},{"name":"_objectId","type":"bytes32"},{"name":"_dataHash","type":"bytes32"},{"name":"_writer","type":"address"}],"name":"updateDataObject","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_sign","type":"bytes"},{"name":"_objectId","type":"bytes32"},{"name":"_dataHash","type":"bytes32"},{"name":"_fileHash","type":"bytes32"},{"name":"_owner","type":"address"}],"name":"createFileObject","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"cns","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getContractName","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getCns","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"gmoCns","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_cns","type":"address"},{"name":"_gmoCns","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"}];
+
+    let gmoAccount;
+    let contract;
+
+    function register() {
+        ethClient.Account.create(baseUrl, $('#password').val(), function(err, account) {
+            if (err) {
+                console.log(err);
+            } else {
+                gmoAccount = account;
+                contract = new ethClient.AltExecCnsContract(gmoAccount, cnsAddress);
+                localStorage.setItem('account', gmoAccount.serialize());
+                $('#address').html(gmoAccount.serialize());
+            }
+        });
+    };
+
+    function login() {
+        var serializedAccount = localStorage.getItem('account');
+        gmoAccount = ethClient.Account.deserialize(serializedAccount);
+        gmoAccount.changeBaseUrl(baseUrl);
+        contract = new ethClient.AltExecCnsContract(gmoAccount, cnsAddress);
+    }
+
+    function getAddress() {
+        $('#address').html(gmoAccount.getAddress());
+    };
+
+    </script>
+    <style>
+      body {
+        background: #ffffff;
+        font-family: Meiryo;
+        text-align: center;
+      }
+    .square_btn{
+    display: inline-block;
+    padding: 0.7em 2em;
+    text-decoration: none;
+    margin: 20px;
+    background: #00ff00;/*ボタン色*/
+    color: #FFF;
+    border-bottom: solid 4px #627295;
+    border-radius: 3px;
+}
+.square_btn:active {/*ボタンを押したとき*/
+    -ms-transform: translateY(4px);
+    -webkit-transform: translateY(4px);
+    transform: translateY(4px);/*下に動く*/
+    border-bottom: none;/*線を消す*/
+}
+    </style>
+
+  </head>
+  <body>
+    <h1>保険管理サービス</h1>
+      <a href="html/diagnosis.html" class="square_btn">診断書作成</a>
+      <a href="html/insurance.html" class="square_btn">保険手続き</a>
+      <a href="htmlregister.html" class="square_btn">アカウント発行</a>
+  </body>
+</html>
